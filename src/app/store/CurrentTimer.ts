@@ -10,6 +10,7 @@ type activity = {
 }
 export interface TimerState {
   currentActivity: string
+  previousActivity: string
   startedAt?: Date | null
   isAnActivityRunning: boolean
   startActivity: (activity: string) => void
@@ -19,11 +20,11 @@ export interface TimerState {
 
 const timerStore = create<TimerState>((set) => ({
   currentActivity: '',
+  previousActivity: '',
   isAnActivityRunning: false,
 
   startActivity: (activity: string) => {
-    makeNewTimeEntry()
-    setPreviousActivityToIsntRunning()
+    stopActivity(set)
     set({
       currentActivity: activity,
       startedAt: new Date(),
@@ -32,13 +33,17 @@ const timerStore = create<TimerState>((set) => ({
     //
     toggleActivityIsRunningState(activity, true)
   },
-  stopActivity: () => {
-    setPreviousActivityToIsntRunning()
-    makeNewTimeEntry()
-    set({ currentActivity: '', isAnActivityRunning: false, startedAt: null })
-  },
+  stopActivity: () => stopActivity(set),
   activities: activities,
 }))
+
+function stopActivity(set: any) {
+  makeNewTimeEntry()
+  const { currentActivity } = timerStore.getState()
+  set({ previousActivity: currentActivity })
+  setPreviousActivityToIsntRunning()
+  set({ currentActivity: '', isAnActivityRunning: false, startedAt: null })
+}
 
 function toggleActivityIsRunningState(activity: string, isRunning: boolean) {
   const { activities } = timerStore.getState()
@@ -63,9 +68,8 @@ function findActivityIndexByTitle(act: string, activities: activity[]): number {
 
 function setPreviousActivityToIsntRunning() {
   const { currentActivity } = timerStore.getState()
-  if (currentActivity.length > 0) {
-    toggleActivityIsRunningState(currentActivity, false)
-  }
+  if (currentActivity.length == 0) return
+  toggleActivityIsRunningState(currentActivity, false)
 }
 function makeNewTimeEntry() {
   addTimeToCurrentActivityObjectInStore()

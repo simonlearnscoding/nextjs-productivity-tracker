@@ -1,14 +1,15 @@
+'use client'
 export const activities = [
   {
     title: 'Workout',
-    color: 'red-300',
+    color: 'cyan',
     didIt: [false, true, false, true, false, true, false],
     time: 0,
     isRunning: false,
   },
   {
     title: 'Study',
-    color: 'red-300',
+    color: 'amber',
     didIt: [false, true, false, true, false, true, false],
     time: 0,
     isRunning: false,
@@ -16,21 +17,21 @@ export const activities = [
 
   {
     title: 'Read',
-    color: 'red-300',
+    color: 'border-orange-600',
     didIt: [false, true, false, true, false, true, false],
     time: 0,
     isRunning: false,
   },
   {
     title: 'Meditate',
-    color: 'red-300',
+    color: 'border-blue-600',
     didIt: [false, true, false, true, false, true, false],
     time: 0,
     isRunning: false,
   },
   {
     title: 'Cook',
-    color: 'red-300',
+    color: 'border-pink-600',
     didIt: [false, true, false, true, false, true, false],
     time: 0,
     isRunning: false,

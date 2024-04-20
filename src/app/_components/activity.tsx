@@ -43,11 +43,13 @@ function Activity({ act }: { act: Activity }) {
     }
   }
 
+  const color = `bg-${act.color}-400`
+  console.log(color)
   return (
     <div
       onClick={handleClick}
-      className={`transition:all pb-2 flex items-start w-full my-2 cursor-pointer justify-start rounded-xl border-2 pt-3 text-2xl font-semibold transition-all  hover:border-gray-300 ${
-        act.isRunning ? 'bg-gray-400' : 'bg-gray-100'
+      className={`transition:all  hover:border-${act.color}-400 pb-2 flex items-start w-full my-2 cursor-pointer justify-start rounded-xl border-2 pt-3 text-2xl font-semibold transition-all   ${
+        act.isRunning ? `${color}` : 'bg-gray-100'
       }`}
     >
       <div className="flex text-2xl font-light flex-col  mr-auto ml-3">
