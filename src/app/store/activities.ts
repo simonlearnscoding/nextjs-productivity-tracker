@@ -1,5 +1,6 @@
 'use client'
-export const activities = [
+import { activityType } from './../_components/activity'
+export const activities: activityType[] = [
   {
     title: 'Workout',
     color: 'cyan',

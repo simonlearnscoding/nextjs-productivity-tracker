@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 export function useRecalculateTimePassed(
-  time: Date | undefined,
+  time: Date | null | undefined,
   currentActivity: string
 ): string {
   const [timePassed, setTimePassed] = useState<string>('00:00')

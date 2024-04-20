@@ -3,20 +3,20 @@ import { useState, useEffect, useRef } from 'react'
 import PlayIcon from './PlayIcon'
 import timerStore from './../store/CurrentTimer'
 
-type Activity = {
+export type activityType = {
   title: string
   color: string
-  time: number
-  didIt: boolean[]
   isRunning: boolean
+  didIt: boolean[]
+  time: number
 }
 
-function Activity({ act }: { act: Activity }) {
+function Activity({ act }: { act: activityType }) {
   const startActivity = timerStore((state) => state.startActivity)
   const stopActivity = timerStore((state) => state.stopActivity)
   const startedAt = timerStore((state) => state.startedAt)
   const [time, setTime] = useState(act.time)
-  const intervalRef = useRef<number | null>(null) // Define intervalRef using useRef
+  const intervalRef = useRef<any>(null) // Define intervalRef using useRef
 
   useEffect(() => {
     if (!act.isRunning || !startedAt) {
@@ -44,7 +44,6 @@ function Activity({ act }: { act: Activity }) {
   }
 
   const color = `bg-${act.color}-400`
-  console.log(color)
   return (
     <div
       onClick={handleClick}

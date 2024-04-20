@@ -1,6 +1,5 @@
 'use client'
 import PlayIcon from './PlayIcon'
-import { useEffect, useState } from 'react'
 import timerStore from './../store/CurrentTimer'
 import { useRecalculateTimePassed } from '../hooks/useRecalculateTime'
 // import { useRecalculateTimePassed } from './timer'
@@ -12,8 +11,6 @@ const Timer = () => {
   const stopActivity = timerStore((state) => state.stopActivity)
   const startActivity = timerStore((state) => state.startActivity)
   const startedAt = timerStore((state) => state.startedAt)
-  // const hours = startedAt?.getHours().toString().padStart(2, '0') // Ensure two digits
-  // const minutes = startedAt?.getMinutes().toString().padStart(2, '0') // Ensure two digits
   const timePassed = useRecalculateTimePassed(startedAt, currentActivity)
   const currentlyTrackingAnActivity = () => currentActivity != ''
 

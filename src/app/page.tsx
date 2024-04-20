@@ -4,7 +4,6 @@ import Activities from './_components/Activities'
 // import { CreatePost } from "~/app/_components/create-post";
 // import { api } from "~/trpc/server";
 
-import timerStore from './store/CurrentTimer'
 export default async function Home() {
   // const hello = await api.post.hello({ text: "from tRPC" });
 

@@ -1,13 +1,6 @@
-import create, { State } from 'zustand'
+import create from 'zustand'
+import { activityType } from './../_components/activity'
 import { activities } from './activities'
-
-type activity = {
-  title: string
-  color: string
-  isRunning: boolean
-  didIt: boolean[]
-  time: number
-}
 export interface TimerState {
   currentActivity: string
   previousActivity: string
@@ -15,7 +8,7 @@ export interface TimerState {
   isAnActivityRunning: boolean
   startActivity: (activity: string) => void
   stopActivity: () => void
-  activities: activity[]
+  activities: activityType[]
 }
 
 const timerStore = create<TimerState>((set) => ({
@@ -52,18 +45,23 @@ function toggleActivityIsRunningState(activity: string, isRunning: boolean) {
     return
   }
   // Create a copy of the activities array
-  const updatedActivities: activity[] = [...activities]
+  const updatedActivities: activityType[] = [...activities]
   // Update the time for the current activity
-  updatedActivities[activityIndex] = {
+
+  const newObject: any = {
     ...updatedActivities[activityIndex],
     isRunning: isRunning,
   }
-  // Update the state with the new activities array
+
+  updatedActivities[activityIndex] = newObject // Update the state with the new activities array
   timerStore.setState({ activities: updatedActivities })
 }
 
-function findActivityIndexByTitle(act: string, activities: activity[]): number {
-  return activities.findIndex((a: activity) => a.title === act)
+function findActivityIndexByTitle(
+  act: string,
+  activities: activityType[]
+): number {
+  return activities.findIndex((a: activityType) => a.title === act)
 }
 
 function setPreviousActivityToIsntRunning() {
@@ -83,16 +81,17 @@ function makeNewTimeEntry() {
     const elapsed = Math.floor((now.getTime() - startedAt!.getTime()) / 1000)
     // Find the index of the current activity in the activities array
     const activityIndex = findActivityIndexByTitle(currentActivity, activities)
-    if (activityIndex === -1) {
-      return
-    }
+
     // Create a copy of the activities array
-    const updatedActivities = [...activities]
+    const updatedActivities: activityType[] = [...activities]
     // Update the time for the current activity
-    updatedActivities[activityIndex] = {
+    //
+
+    const newObject: any = {
       ...updatedActivities[activityIndex],
-      time: updatedActivities[activityIndex].time + elapsed,
+      time: updatedActivities[activityIndex]!.time + elapsed,
     }
+    updatedActivities[activityIndex] = newObject
     // Update the state with the new activities array
     timerStore.setState({ activities: updatedActivities })
 
