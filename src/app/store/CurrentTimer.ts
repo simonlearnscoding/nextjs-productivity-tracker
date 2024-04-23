@@ -1,5 +1,5 @@
 import create from 'zustand'
-import { activityType } from './../_components/activity'
+import type { activityType } from './../_components/activity'
 import { activities } from './activities'
 export interface TimerState {
   currentActivity: string

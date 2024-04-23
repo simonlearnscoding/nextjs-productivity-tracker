@@ -1,5 +1,5 @@
 'use client'
-import { activityType } from './../_components/activity'
+import type { activityType } from './../_components/activity'
 export const activities: activityType[] = [
   {
     title: 'Workout',

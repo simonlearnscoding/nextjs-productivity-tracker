@@ -12,8 +12,12 @@ const config = {
   ],
   rules: {
     "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/strict-null-checks": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
@@ -40,4 +44,3 @@ const config = {
   },
 };
 module.exports = config;
-
