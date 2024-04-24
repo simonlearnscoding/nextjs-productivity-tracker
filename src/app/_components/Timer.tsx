@@ -20,11 +20,11 @@ const Timer = () => {
       : startActivity(previousActivity)
   }
   return (
-    <div className="bg-gray-100 w-full mb-3 flex flex-col rounded-md px-1 py-2">
-      <div className="bg-gray-200 rounded-md px-3 py-2 text-xl w-full mb-2">
+    <div className="bg-gray-600 w-full mb-3 flex flex-col rounded-md px-1 py-2">
+      <div className="bg-gray-700 rounded-md text-gray-200 px-3 py-2 text-xl w-full mb-2">
         {currentlyTrackingAnActivity() ? currentActivity : `Continue`}
       </div>
-      <div className="flex py-4 cursor-pointer  px-3 bg-gray-200  items-center rounded-md">
+      <div className="flex py-4 cursor-pointer text-gray-200  px-3 bg-gray-700  items-center rounded-md">
         <div onClick={onClick} className="   text-2xl w-full ">
           {currentlyTrackingAnActivity() ? timePassed : previousActivity}
         </div>

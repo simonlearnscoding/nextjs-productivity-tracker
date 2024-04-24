@@ -10,6 +10,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+// I need one for user I guess but first I need to set up the clerk thing
 model Post {
     pd        Int      @id @default(autoincrement())
     

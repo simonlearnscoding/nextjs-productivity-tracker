@@ -47,8 +47,8 @@ function Activity({ act }: { act: activityType }) {
   return (
     <div
       onClick={handleClick}
-      className={`transition:all  hover:border-${act.color}-400 pb-2 flex items-start w-full my-2 cursor-pointer justify-start rounded-xl border-2 pt-3 text-2xl font-semibold transition-all   ${
-        act.isRunning ? `${color}` : 'bg-gray-100'
+      className={`transition:all  hover:border-gray-400 border-gray-800 pb-2 text-gray-300 flex items-start w-full my-2 cursor-pointer justify-start rounded-xl border-2 pt-3 text-2xl font-semibold transition-all   ${
+        act.isRunning ? `bg-gray-900 border-gray-300` : 'bg-gray-700'
       }`}
     >
       <div className="flex text-2xl font-light flex-col  mr-auto ml-3">
@@ -58,7 +58,7 @@ function Activity({ act }: { act: activityType }) {
           {act.didIt.map((did, index) => (
             <div
               key={index}
-              className={`rounded-full ${did ? 'bg-gray-700' : 'bg-gray-300'} mr-1 w-3  h-3`}
+              className={`rounded-full ${did ? 'bg-gray-200' : 'bg-gray-600'} mr-1 w-3  h-3`}
             ></div>
           ))}
         </div>

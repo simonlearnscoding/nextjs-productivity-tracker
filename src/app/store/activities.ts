@@ -37,4 +37,11 @@ export const activities: activityType[] = [
     time: 0,
     isRunning: false,
   },
+  {
+    title: 'Yoga',
+    color: 'border-pink-600',
+    didIt: [false, true, false, true, false, true, false],
+    time: 0,
+    isRunning: false,
+  },
 ]
