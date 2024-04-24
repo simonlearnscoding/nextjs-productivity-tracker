@@ -5,13 +5,13 @@ import { useUser } from '@clerk/clerk-react'
 const UserHeader = () => {
   const user = useUser()
   return (
-    <header className="bg-rose-950 w-full h-16 flex justify-center items-center px-4">
-      <div className="text-white text-2xl font-semibold ml-6">
+    <header className="  w-full h-16 flex justify-center items-center px-4">
+      <div className="text-white sm:text-2xl text-xl font-semibold ">
         {' '}
-        Welcome {user.user?.fullName}{' '}
+        {user.user?.firstName}{' '}
       </div>
 
-      <div className="ml-auto mr-6">
+      <div className="ml-auto ">
         <UserButton />
       </div>
     </header>
