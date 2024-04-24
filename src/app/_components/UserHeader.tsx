@@ -5,7 +5,7 @@ import { useUser } from '@clerk/clerk-react'
 const UserHeader = () => {
   const user = useUser()
   return (
-    <header className="  w-full hidden  h-16 sm:flex justify-center items-center px-4">
+    <header className="  w-full sm:h-16 h-10 flex justify-center items-center px-4">
       <div className="text-white sm:text-2xl text-xl font-semibold ">
         {' '}
         {user.user?.firstName}{' '}
