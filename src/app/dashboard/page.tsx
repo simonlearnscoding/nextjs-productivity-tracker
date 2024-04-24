@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className=" h-screen w-screen bg-slate-800 overflow-hidden">
       <UserHeader />
-      <div className="flex     items-start w-full h-full justify-start   px-8 gap-8 grow-1 md:pt-16">
+      <div className="flex     items-start w-full h-full justify-start   sm:px-8 px-4 gap-8 grow-1 md:pt-16">
         <div className="bg-slate-900 rounded-md h-5/6 hidden md:flex w-full ">
           {' '}
         </div>
