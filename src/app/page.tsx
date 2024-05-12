@@ -1,9 +1,23 @@
-'use client'
+// 'use client'
+import { api } from '~/trpc/server'
 import Link from 'next/link'
 
-export default function Home() {
-  // const hello = await api.post.hello({ text: "from tRPC" });
+const Activities = [
+  'Workout',
+  'Study',
+  'Work',
+  'Meditation',
+  'Reading',
+  'Writing',
+]
 
+function createAllActivities() {
+  Activities.map((activity) => {
+    api.post.createActivity({ name: activity })
+  })
+}
+
+export default function Home() {
   return (
     <div className="bg-gray-700 h-screen flex-col w-screen flex justify-center items-center">
       <div className="flex text-5xl text-gray-100 font-semibold grow-1">

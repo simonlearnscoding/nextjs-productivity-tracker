@@ -10,13 +10,73 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-// I need one for user I guess but first I need to set up the clerk thing
-model Post {
-    pd        Int      @id @default(autoincrement())
-    
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+    id           String         @id
+    name         String
+    discordId    String         @unique
+    createdAt    DateTime       @default(now())
+    UserActivity UserActivity[]
+}
 
-    @@index([name])
+model UserActivity {
+    id         Int       @id @default(autoincrement())
+    User       User      @relation(fields: [userId], references: [id])
+    userId     String
+    activityId Int
+    Activity   Activity  @relation(fields: [activityId], references: [id])
+    startedAt  DateTime  @default(now())
+    endedAt    DateTime?
+}
+
+model Activity {
+    id           Int            @id @default(autoincrement())
+    name         String
+    UserActivity UserActivity[]
+}
+
+enum SessionType {
+    TRACKING
+    PLANNED
+    LOGGED
+}
+
+model Session {
+    id              Int              @id @default(autoincrement())
+    createdAt       DateTime         @default(now())
+    type            SessionType
+    userId          String
+    activityId      Int
+    sessionPartials SessionPartial[]
+    start           DateTime
+    end             DateTime
+
+    @@index([userId], name: "session_user_index")
+    @@index([activityId], name: "session_activity_index")
+}
+
+enum SessionPartialType {
+    WORK
+    BREAK
+}
+
+model SessionPartial {
+    id         Int                @id @default(autoincrement())
+    start      DateTime
+    end        DateTime
+    userId     String
+    type       SessionPartialType
+    activityId Int
+    Session    Session            @relation(fields: [SessionId], references: [id])
+    SessionId  Int
+
+    @@index([userId], name: "partial_user_index")
+    @@index([activityId], name: "partial_activity_index")
+}
+
+model DayLog {
+    id         Int      @id @default(autoincrement())
+    activityId Int
+    userId     String
+    date       DateTime
+    duration   Int
 }

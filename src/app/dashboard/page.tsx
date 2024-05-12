@@ -7,9 +7,6 @@ import Activities from './../_components/Activities'
 import UserHeader from './../_components/UserHeader'
 
 export default function Home() {
-  // const hello = await api.post.hello({ text: "from tRPC" });
-
-  // <div className=" w-full   h-full  bg-stone-400 rounded-md md:px-6"></div>
   return (
     <div className=" h-screen w-screen bg-slate-800 overflow-hidden">
       <UserHeader />
