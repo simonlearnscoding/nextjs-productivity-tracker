@@ -1,19 +1,26 @@
-'use client'
+// 'use client'
 import Timer from './../_components/Timer'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import Activities from './../_components/Activities'
 // import { CreatePost } from "~/app/_components/create-post";
-// import { api } from "~/trpc/server";
+import { api } from "~/trpc/server";
 import { useUser } from '@clerk/clerk-react'
 import { useRouter } from 'next/router'
 import UserHeader from './../_components/UserHeader'
 
 export default function Home() {
   const user = useUser()
-  useEffect(() => {
-    if (user.user == null) return
-    console.log(user)
-  }, [user])
+
+  if (user.user == null) {
+    return <div>loading...</div>
+  }
+  api.session.startSession(
+    {
+      userId: user.user.id,
+      activityId: 1,
+    }
+
+  )
   return (
     <div className=" h-screen w-screen bg-slate-800 overflow-hidden">
       <UserHeader />

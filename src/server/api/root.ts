@@ -1,4 +1,5 @@
 import { activityRouter } from '~/server/api/routers/activities'
+import { sessionRouter } from '~/server/api/routers/sessions'
 import { createCallerFactory, createTRPCRouter } from '~/server/api/trpc'
 
 /**
@@ -8,6 +9,7 @@ import { createCallerFactory, createTRPCRouter } from '~/server/api/trpc'
  */
 export const appRouter = createTRPCRouter({
   activity: activityRouter,
+  session: sessionRouter,
 })
 
 // export type definition of API
