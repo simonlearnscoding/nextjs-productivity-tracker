@@ -13,7 +13,7 @@ const Activities = [
 
 function createAllActivities() {
   Activities.map((activity) => {
-    api.post.createActivity({ name: activity })
+    api.activity.createActivity({ name: activity })
   })
 }
 

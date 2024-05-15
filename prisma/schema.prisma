@@ -10,17 +10,8 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model User {
-    id           String         @id
-    name         String
-    discordId    String         @unique
-    createdAt    DateTime       @default(now())
-    UserActivity UserActivity[]
-}
-
 model UserActivity {
     id         Int       @id @default(autoincrement())
-    User       User      @relation(fields: [userId], references: [id])
     userId     String
     activityId Int
     Activity   Activity  @relation(fields: [activityId], references: [id])
