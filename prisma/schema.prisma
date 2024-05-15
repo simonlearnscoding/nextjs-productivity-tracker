@@ -40,7 +40,7 @@ model Session {
     activityId      Int
     sessionPartials SessionPartial[]
     start           DateTime
-    end             DateTime
+    end             DateTime?
 
     @@index([userId], name: "session_user_index")
     @@index([activityId], name: "session_activity_index")
@@ -54,12 +54,12 @@ enum SessionPartialType {
 model SessionPartial {
     id         Int                @id @default(autoincrement())
     start      DateTime
-    end        DateTime
+    end        DateTime?
     userId     String
     type       SessionPartialType
     activityId Int
-    Session    Session            @relation(fields: [SessionId], references: [id])
-    SessionId  Int
+    Session    Session            @relation(fields: [sessionId], references: [id])
+    sessionId  Int
 
     @@index([userId], name: "partial_user_index")
     @@index([activityId], name: "partial_activity_index")

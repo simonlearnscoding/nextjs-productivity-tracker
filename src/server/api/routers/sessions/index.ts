@@ -11,27 +11,33 @@ const startSessionInput = z.object({
 export const sessionRouter = createTRPCRouter({
   startSession: publicProcedure
     .input(startSessionInput)
-    .mutation(({ ctx, input }) => startSessionHandler(ctx, input)),
+    .mutation(async ({ ctx, input }) => startSessionHandler(ctx, input)),
 });
 
 // Define the handler function
-function startSessionHandler(ctx: any, input) {
-  // TODO: Test
-
+async function startSessionHandler(ctx: any, input: { userId: string; activityId: number }) {
   const { userId, activityId } = input;
-  const session = ctx.db.session.create({
+
+  // Create the session
+  const session = await ctx.db.session.create({
     data: {
       start: new Date(),
       userId,
       activityId,
-      type: 'TRACKING'
-    }
-  })
-  const sessionPartial = ctx.db.sessionPartial.create({
-    start: new Date(),
-    userId,
-    activityId,
-    sessionId: session.id
-  })
+      type: 'TRACKING',
+    },
+  });
+
+  // Create the session partial
+  const sessionPartial = await ctx.db.sessionPartial.create({
+    data: {
+      start: new Date(),
+      userId,
+      activityId,
+      type: 'WORK',
+      sessionId: session.id
+    },
+  });
+
   return { session, sessionPartial };
 }
