@@ -1,5 +1,9 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { startSessionHandler } from './startSessionHandler';
+import { pauseOrContinueSessionHandler } from './pauseSessionHandler';
+import { stopSessionHandler } from './stopSessionHandler';
+import { getUserActiveSessionHandler } from './getUserActiveSessionHandler';
 
 // Define Zod schema for input validation
 const startSessionInput = z.object({
@@ -9,35 +13,23 @@ const startSessionInput = z.object({
 
 // Define the TRPC router
 export const sessionRouter = createTRPCRouter({
+  getUserActiveSession: publicProcedure
+    .input(z.object({
+      userId: z.string(),
+    }))
+    .query(async ({ ctx, input }) => getUserActiveSessionHandler(ctx, input)),
   startSession: publicProcedure
     .input(startSessionInput)
     .mutation(async ({ ctx, input }) => startSessionHandler(ctx, input)),
+  pauseOrContinueSession: publicProcedure
+    .input(z.object({
+      userId: z.string(),
+    }))
+    .mutation(async ({ ctx, input }) => pauseOrContinueSessionHandler(ctx, input)),
+  stopSession: publicProcedure
+    .input(z.object({
+      userId: z.string(),
+    }))
+    .mutation(async ({ ctx, input }) => stopSessionHandler(ctx, input)),
 });
 
-// Define the handler function
-async function startSessionHandler(ctx: any, input: { userId: string; activityId: number }) {
-  const { userId, activityId } = input;
-
-  // Create the session
-  const session = await ctx.db.session.create({
-    data: {
-      start: new Date(),
-      userId,
-      activityId,
-      type: 'TRACKING',
-    },
-  });
-
-  // Create the session partial
-  const sessionPartial = await ctx.db.sessionPartial.create({
-    data: {
-      start: new Date(),
-      userId,
-      activityId,
-      type: 'WORK',
-      sessionId: session.id
-    },
-  });
-
-  return { session, sessionPartial };
-}

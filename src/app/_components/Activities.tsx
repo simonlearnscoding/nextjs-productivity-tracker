@@ -2,7 +2,9 @@
 import React from 'react'
 import Activity from './activity'
 import useTimerStore from './../store/CurrentTimer'
-const Activities = () => {
+import { getActivityWeekViewResponse } from '~/types'
+
+const Activities = ({ userActivityWeekView }) => {
   const activities = useTimerStore((state) => state.activities)
   return (
     <div className=" overflow-y-scroll w-full  h-full  ">

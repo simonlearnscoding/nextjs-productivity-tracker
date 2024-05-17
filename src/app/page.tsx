@@ -18,6 +18,7 @@ function createAllActivities() {
 }
 
 export default function Home() {
+  createAllActivities()
   return (
     <div className="bg-gray-700 h-screen flex-col w-screen flex justify-center items-center">
       <div className="flex text-5xl text-gray-100 font-semibold grow-1">

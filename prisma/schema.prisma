@@ -1,74 +1,79 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model UserActivity {
-    id         Int       @id @default(autoincrement())
-    userId     String
-    activityId Int
-    Activity   Activity  @relation(fields: [activityId], references: [id])
-    startedAt  DateTime  @default(now())
-    endedAt    DateTime?
+  id         Int       @id @default(autoincrement())
+  userId     String
+  activityId Int
+  Activity   Activity  @relation(fields: [activityId], references: [id])
+  startedAt  DateTime  @default(now())
+  endedAt    DateTime?
 }
 
 model Activity {
-    id           Int            @id @default(autoincrement())
-    name         String
-    UserActivity UserActivity[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  UserActivity UserActivity[]
 }
 
 enum SessionType {
-    TRACKING
-    PLANNED
-    LOGGED
+  TRACKING
+  PLANNED
+  LOGGED
 }
 
 model Session {
-    id              Int              @id @default(autoincrement())
-    createdAt       DateTime         @default(now())
-    rating          Int?             
-    type            SessionType
-    userId          String
-    activityId      Int
-    sessionPartials SessionPartial[]
-    start           DateTime
-    end             DateTime?
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  rating          Int?             
+  type            SessionType
+  userId          String
+  activityId      Int
+  isActive        Boolean          @default(true)
+  sessionPartials SessionPartial[]
+  start           DateTime
+  end             DateTime?
+  totalDuration  Int              @default(0)
+  daylogId        Int?
+  daylog          Daylog?          @relation(fields: [daylogId], references: [id])
 
-    @@index([userId], name: "session_user_index")
-    @@index([activityId], name: "session_activity_index")
+  @@index([userId], name: "session_user_index")
+  @@index([activityId], name: "session_activity_index")
 }
 
 enum SessionPartialType {
-    WORK
-    BREAK
+  WORK
+  BREAK
 }
 
 model SessionPartial {
-    id         Int                @id @default(autoincrement())
-    start      DateTime
-    end        DateTime?
-    userId     String
-    type       SessionPartialType
-    activityId Int
-    Session    Session            @relation(fields: [sessionId], references: [id])
-    sessionId  Int
+  id         Int                @id @default(autoincrement())
+  isActive   Boolean            @default(true)
+  start      DateTime
+  end        DateTime?
+  userId     String
+  type       SessionPartialType
+  activityId Int
+  sessionId  Int
+  Session    Session            @relation(fields: [sessionId], references: [id])
 
-    @@index([userId], name: "partial_user_index")
-    @@index([activityId], name: "partial_activity_index")
+  @@index([userId], name: "partial_user_index")
+  @@index([activityId], name: "partial_activity_index")
 }
 
-model DayLog {
-    id         Int      @id @default(autoincrement())
-    activityId Int
-    userId     String
-    date       DateTime
-    duration   Int
+model Daylog {
+  id            Int        @id @default(autoincrement())
+  date          String
+  userId        String
+  activityId    Int
+  totalDuration Int        @default(0)
+  sessions      Session[]  @relation
+
+  @@unique([date, userId, activityId], name: "date_userId_activityId_unique")
 }
