@@ -20,3 +20,14 @@ export type durationAndDate = {
   day: Date;
   duration: number;
 }
+
+
+export type activeSessionResponse = {
+  activityName: string;
+  activityId: number;
+  pretrackedDuration: number;
+  sessionStart: Date;
+  sessionPartialStart: Date;
+  sessionPartialType: string;
+  sessionTrackingType: string;
+} | null;

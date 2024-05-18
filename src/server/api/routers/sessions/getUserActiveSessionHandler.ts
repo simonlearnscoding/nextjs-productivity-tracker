@@ -1,13 +1,5 @@
 
-type activeSessionResponse = {
-  activityName: string;
-  activityId: number;
-  pretrackedDuration: number;
-  sessionStart: Date;
-  sessionPartialStart: Date;
-  sessionPartialType: string;
-  sessionTrackingType: string;
-} | null;
+import { activeSessionResponse } from '~/types';
 export async function getUserActiveSessionHandler(ctx: any, input: { userId: string; }): Promise<activeSessionResponse> {
   const session = await ctx.db.session.findFirst({
     where: {

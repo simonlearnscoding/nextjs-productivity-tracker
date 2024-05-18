@@ -6,8 +6,10 @@ import Activities from '../_components/Activities';
 import { api } from '~/trpc/react'; // Ensure this is your client-side TRPC instance
 import { useUser } from '@clerk/clerk-react';
 import UserHeader from '../_components/UserHeader';
+import timerStore from '~/app/store/CurrentTimer';
 
 export default function Home() {
+
   const { user } = useUser();
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -21,17 +23,20 @@ export default function Home() {
   }, [user]);
 
   // TODO: Refactor this to use it in the backend
+  // What am I even getting them for here?
   const { data: activities, isLoading: isLoadingActivities } = api.activity.getAllUserActivities.useQuery(
     { userId: userId ?? '' },
     {
       enabled: !!userId,
     }
   );
-
+  // oh yeah thats why maybe Ill make users just add them right away
 
   // Auto-add activities if none exist
   const { isLoading: isLoadingAutoAdd } = useAutoAddActivities(userId, activities);
   const userActivities = activities ?? [];
+  // ──────────────────────────────────────────────────────────────────────
+  // 
   // Fetch active session
   const { data: activeSessionData, isLoading: isLoadingActiveSession } = api.session.getUserActiveSession.useQuery(
     { userId: userId ?? '' },
@@ -40,7 +45,7 @@ export default function Home() {
     }
   );
 
-
+  // ──────────────────────────────────────────────────────────────────────
   const userActivityWeekView = api.activity.getUserActivityWeekView.useQuery(
     { userId: userId ?? '' },
     {
