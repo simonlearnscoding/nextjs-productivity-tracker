@@ -7,12 +7,14 @@ import { api } from '~/trpc/react'; // Ensure this is your client-side TRPC inst
 import { useUser } from '@clerk/clerk-react';
 import UserHeader from '../_components/UserHeader';
 import timerStore from '~/app/store/CurrentTimer';
+import { useUserStore } from './../store/user';
 
 export default function Home() {
 
   const { user } = useUser();
-  const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  // const userStore = useUserStore()
+  const { userId, setUserId } = useUserStore()
 
   useEffect(() => {
     if (user) {
@@ -46,7 +48,7 @@ export default function Home() {
   );
 
   // ──────────────────────────────────────────────────────────────────────
-  const userActivityWeekView = api.activity.getUserActivityWeekView.useQuery(
+  const { data: userActivityWeekView, isLoading: isActLoading } = api.activity.getUserActivityWeekView.useQuery(
     { userId: userId ?? '' },
     {
       enabled: !!userId,
@@ -58,7 +60,8 @@ export default function Home() {
 
 
   // Combined loading state
-  const isLoading = loading || isLoadingActivities || isLoadingActiveSession || isLoadingAutoAdd;
+  // TODO: use Suspense if possible
+  const isLoading = loading || isLoadingActivities || isLoadingActiveSession || isLoadingAutoAdd || isActLoading;
 
 
   return (
@@ -68,15 +71,18 @@ export default function Home() {
         <div className="bg-slate-900 rounded-md h-5/6 hidden md:flex w-full"></div>
         <div className="flex h-5/6 w-full flex-col items-start justify-start">
           {isLoading ? (
-            <div>Loading...</div> // You can replace this with a loading spinner or skeleton
-          ) : (
+            <LoadingState />) : (
             <>
               <Timer />
-              <Activities userActivityWeekView={userActivityWeekView} />
+              <Activities userActivityWeekView={userActivityWeekView} session={activeSessionData} />
             </>
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
+}
+
+function LoadingState() {
+  return <div>Loading...</div> // You can replace this with a loading spinner or skeleton
 }
