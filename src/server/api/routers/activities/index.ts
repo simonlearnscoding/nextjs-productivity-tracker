@@ -25,17 +25,36 @@ export const activityRouter = createTRPCRouter({
     }))
     .mutation(({ ctx, input }) => addActivityToUserHandler(ctx, input)),
 
+  removeActivityFromUser: publicProcedure
+    .input(z.object({
+      userId: z.string(),
+      activityId: z.number(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.userActivity.deleteMany({
+        where: {
+          userId: input.userId,
+          activityId: input.activityId,
+        },
+      });
+      return true;
+    }),
   getAllActivities: publicProcedure
-    .query(({ ctx }) => ctx.db.activity.findMany()),
+    .query(async ({ ctx }) => {
+      const activities = await ctx.db.activity.findMany();
+      return activities || [];
+    }),
 
   getAllUserActivities: publicProcedure
     .input(z.object({
-      userId: z.string()
+      userId: z.string(),
     }))
-    .query(({ ctx, input }) => ctx.db.userActivity.findMany({
-      where: {
-        userId: input.userId,
-      },
-    })),
-
+    .query(async ({ ctx, input }) => {
+      const userActivities = await ctx.db.userActivity.findMany({
+        where: {
+          userId: input.userId,
+        },
+      });
+      return userActivities || [];
+    }),
 })    
