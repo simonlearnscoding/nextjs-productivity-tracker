@@ -1,11 +1,11 @@
 // this should create a 6 second session with pause inbetween
 'use client';
-import Timer from '../_components/Timer'
+import Timer from '../_components/Timer';
 import { useEffect, useState } from 'react';
-import Activities from '../_components/Activities'
-import { api } from "~/trpc/react"; // Ensure this is your client-side TRPC instance
+import Activities from '../_components/Activities';
+import { api } from '~/trpc/react'; // Ensure this is your client-side TRPC instance
 import { useUser } from '@clerk/clerk-react';
-import UserHeader from '../_components/UserHeader'
+import UserHeader from '../_components/UserHeader';
 
 export default function Home() {
   const { user } = useUser();
@@ -20,7 +20,7 @@ export default function Home() {
     const startSession = async () => {
       if (!user) return;
 
-      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
       try {
         await startSessionMutation.mutateAsync({

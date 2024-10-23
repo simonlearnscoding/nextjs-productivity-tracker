@@ -21,40 +21,35 @@ export default function Home() {
   }, [user]);
 
   // TODO: Refactor this to use it in the backend
-  const { data: activities, isLoading: isLoadingActivities } = api.activity.getAllUserActivities.useQuery(
-    { userId: userId ?? '' },
-    {
-      enabled: !!userId,
-    }
-  );
-
+  const { data: activities, isLoading: isLoadingActivities } =
+    api.activity.getAllUserActivities.useQuery(
+      { userId: userId ?? '' },
+      {
+        enabled: !!userId,
+      }
+    );
 
   // Auto-add activities if none exist
   const { isLoading: isLoadingAutoAdd } = useAutoAddActivities(userId, activities);
   const userActivities = activities ?? [];
   // Fetch active session
-  const { data: activeSessionData, isLoading: isLoadingActiveSession } = api.session.getUserActiveSession.useQuery(
-    { userId: userId ?? '' },
-    {
-      enabled: !!userId,
-    }
-  );
-
+  const { data: activeSessionData, isLoading: isLoadingActiveSession } =
+    api.session.getUserActiveSession.useQuery(
+      { userId: userId ?? '' },
+      {
+        enabled: !!userId,
+      }
+    );
 
   const userActivityWeekView = api.activity.getUserActivityWeekView.useQuery(
     { userId: userId ?? '' },
     {
       enabled: !!userId,
     }
-  )
-
-
-
-
+  );
 
   // Combined loading state
   const isLoading = loading || isLoadingActivities || isLoadingActiveSession || isLoadingAutoAdd;
-
 
   return (
     <div className="h-screen w-screen bg-slate-800 overflow-hidden">
